@@ -122,7 +122,7 @@ const ClientTable = () => {
                     }}
                     size="small"
                     onClick={() => getClients()}
-                    disabled={searchName.trim() === "" && searchID.trim() === ""}
+                // disabled={searchName.trim() === "" && searchID.trim() === ""}
                 ><SearchIcon />
                 </Button>
             </Grid>
