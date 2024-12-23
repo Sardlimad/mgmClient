@@ -6,7 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
 import { Spinner } from "./Spinner";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { CAlert } from "./CAlert";
 import { DeleteDialog } from "./DeleteDialog";
 
@@ -33,7 +33,7 @@ const ClientTable = () => {
 
     const [openDeleteDlg, setOpenDeleteDlg] = useState(false);
 
-    // const location = useLocation();
+    const location = useLocation();
 
     const getClients = async () => {
         try {
@@ -77,6 +77,15 @@ const ClientTable = () => {
         getClients();
     }, [])
 
+    useEffect(() => {
+        if (location.state?.alertData) {
+            const { status, message } = location.state.alertData;
+            setAlertData({ status, message });
+            setOpenAlert(true)
+        }
+    }, [location.state])
+
+
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -89,6 +98,7 @@ const ClientTable = () => {
 
     const handleCloseAlert = () => {
         setOpenAlert(false)
+        window.history.replaceState({}, '')
     }
 
     return (<>
