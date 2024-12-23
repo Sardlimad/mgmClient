@@ -24,6 +24,7 @@ export const Login = () => {
 
     const handleCloseAlert = () => {
         setOpenAlert(false)
+        window.history.replaceState({}, '')
     }
 
     const handleLogin = async (e) => {

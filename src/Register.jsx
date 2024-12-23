@@ -22,6 +22,7 @@ export const Register = () => {
 
     const handleClose = () => {
         setOpenAlert(false)
+        window.history.replaceState({}, '')
     }
 
     const handleRegister = async (e) => {

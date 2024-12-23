@@ -146,6 +146,7 @@ const ClienteForm = () => {
 
     const handleCloseAlert = () => {
         setOpenAlert(false)
+        window.history.replaceState({}, '')
     }
 
     return (

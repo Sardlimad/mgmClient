@@ -30,21 +30,6 @@ export const Home = () => {
       >
         Esta es la página principal de nuestra aplicación. Navega por el menú para explorar las diferentes secciones y funciones.
       </Typography>
-      <Button
-        variant="contained"
-        color="primary"
-        size="large"
-        href="/about"
-        sx={{
-          textTransform: "none",
-          fontWeight: "medium",
-          px: 4,
-          py: 1.5,
-          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        Saber más
-      </Button>
     </Box>
   );
 };
