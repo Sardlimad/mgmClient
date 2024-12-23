@@ -40,7 +40,7 @@ export const AuthLayout = () => {
                         bgcolor="rgba(0, 0, 0, 0.6)"
                     >
                         <Typography
-                            variant={{ xs: "h5", md: "h4" }}
+                            // variant={{ xs: "h5", md: "h4" }}
                             // fontWeight="bold"
                             color="white"
                             fontSize={{ xs: "30px", md: "40px" }}

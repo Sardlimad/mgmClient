@@ -16,7 +16,7 @@ export const Clients = () => {
         >
             <Grid container alignItems="center" spacing={2}>
                 <Grid item>
-                    <Typography variant="h5" fontWeight="bold">
+                    <Typography fontWeight="bold">
                         Consulta de Clientes
                     </Typography>
                 </Grid>

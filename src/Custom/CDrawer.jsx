@@ -53,7 +53,6 @@ export const CDrawer = ({ open, toggleDrawer }) => {
           }}
         />
         <Typography
-          variant="h6"
           sx={{
             fontWeight: "bold",
             color: theme.palette.primary.dark,
@@ -64,7 +63,6 @@ export const CDrawer = ({ open, toggleDrawer }) => {
         </Typography>
         <Divider sx={{ width: "80%", my: 2 }} />
         <Typography
-          variant="subtitle1"
           sx={{
             fontWeight: "bold",
             color: theme.palette.text.secondary,

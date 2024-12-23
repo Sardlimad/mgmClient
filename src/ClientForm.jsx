@@ -212,7 +212,7 @@ const ClienteForm = () => {
                     </IconButton>
                 </Grid>
                 <Grid item>
-                    <Typography variant="h5" fontWeight="bold">
+                    <Typography fontWeight="bold">
                         Mantenimiento de Cliente
                     </Typography>
                 </Grid>

@@ -14,7 +14,6 @@ export const Home = () => {
       px={3}
     >
       <Typography
-        variant="h2"
         fontWeight="bold"
         color="primary"
         mb={2}
@@ -23,7 +22,6 @@ export const Home = () => {
         ¡Bienvenido!
       </Typography>
       <Typography
-        variant="body1"
         color="text.secondary"
         mb={4}
         sx={{ maxWidth: "600px" }}

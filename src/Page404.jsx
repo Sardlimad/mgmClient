@@ -26,10 +26,10 @@ export const Page404 = () => {
                     marginBottom: '16px',
                 }}
             />
-            <Typography variant="h4" fontWeight="bold" color="text.primary" mb={2}>
+            <Typography fontWeight="bold" color="text.primary" mb={2}>
                 Oops... Página no encontrada
             </Typography>
-            <Typography variant="body1" color="text.secondary" mb={4}>
+            <Typography color="text.secondary" mb={4}>
                 Lo sentimos, no pudimos encontrar la página que buscas. Verifica la URL o regresa a la página de inicio.
             </Typography>
             <Button

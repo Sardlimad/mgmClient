@@ -34,7 +34,7 @@ export default function NavBar() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    <Typography component="div" sx={{ flexGrow: 1 }}>
                         {APP_NAME}
                     </Typography>
                     <Typography fontWeight={"bold"} p={"10px"}>Hola, {authData.username}</Typography>
