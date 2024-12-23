@@ -4,7 +4,7 @@ import useApi from "../hooks/useAPI";
 import { useAuth } from "../helpers/AuthProvider";
 import { Button, CircularProgress, Typography } from "@mui/material";
 
-const ClientDelete = ({ IdClient }) => {
+const ClientDelete = ({ IdClient, setOpenDialog }) => {
 
     const { request, loading } = useApi();
     const navigate = useNavigate();
@@ -16,9 +16,11 @@ const ClientDelete = ({ IdClient }) => {
 
             console.log("DELETE: ", response);
             const { status, message } = response;
+            setOpenDialog(false);
             navigate('/client', { state: { alertData: { status, message } } });
         } catch (error) {
             const errorMessage = "Ocurrió un error inesperado.";
+            setOpenDialog(false);
             navigate('/client', { state: { alertData: { status: "error", message: errorMessage } } });
         }
     };

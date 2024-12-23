@@ -36,7 +36,7 @@ export const DeleteDialog = ({ open, setOpen, hanleDelete, IdCliente }) => {
                 <Button autoFocus onClick={handleClose}>
                     Cancelar
                 </Button>
-                <ClientDelete IdCliente={IdCliente} />
+                <ClientDelete IdCliente={IdCliente} setOpenDialog={setOpen} />
             </DialogActions>
         </Dialog>
     );
