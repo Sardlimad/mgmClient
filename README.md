@@ -1,78 +1,107 @@
-# Getting Started with Create React App
+# 🌟 Autenticación y Administración de Sesiones con React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este proyecto es una aplicación web de autenticación desarrollada con **React** y **Material UI**, diseñada para ofrecer una experiencia moderna, segura y responsiva a los usuarios. La aplicación incluye funcionalidades avanzadas de manejo de sesiones y validación de formularios.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Características Principales
 
-### `npm start`
+### 🔐 Autenticación
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Inicio de Sesión y Registro**: Formularios con validaciones robustas utilizando **Formik** y **Yup**.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 🎨 UI/UX
 
-#### Note: 
-If you are having problems compiling the project in your environment, this may be due to the dependencies of version 17 of react. To fix this, run the following command in your terminal
+- **Estilo Responsivo**: Diseñado con **Material UI** para adaptarse a cualquier dispositivo.
+- **Dark/Light Mode**: Cambia dinámicamente entre temas claro y oscuro.
+- **Errores Personalizados**: Páginas de error con mensajes amigables y accesos rápidos a soluciones.
+
+### ⚙️ Funcionalidades Adicionales
+
+- **Navegación Protegida**: Implementación de rutas privadas con redirección automática.
+- **Tooltip y Confirmaciones**: Mejora la usabilidad de botones clave, como el de cerrar sesión.
+
+---
+
+## 📂 Estructura del Proyecto
+
+```
+├── public
+│   ├── index.html
+│   ├── images
+│   │   ├── 404.svg
+│   │   └── protruding-squares.svg
+├── src
+│   ├── components
+│   │   ├── LogoutBtn.jsx
+│   ├── helpers
+│   │   ├── AuthProvider.js
+│   ├── layouts
+│   │   ├── AuthLayout.jsx
+│   ├── pages
+│   │   ├── Home.jsx
+│   │   ├── Page404.jsx
+│   ├── validations
+│   │   ├── registerValidation.js
+│   ├── Configs
+│   │   ├── Config.js
+│   └── App.js
+```
+
+---
+
+## 🛠️ Tecnologías Utilizadas
+
+### Frontend
+
+- **React v17**: Biblioteca principal para la interfaz de usuario.
+- **React Router Dom v6**: Manejo de rutas y navegación.
+- **Formik**: Manejo de formularios con validaciones avanzadas.
+- **Yup**: Esquemas de validación robustos.
+- **Material UI**: Framework para diseño responsivo y estilizado.
+
+---
+
+## 🖥️ Instalación y Configuración
+
+### 1. Clonar el repositorio
+
 ```bash
-export NODE_OPTIONS=--openssl-legacy-provider
+git clone https://github.com/sardlimad/your-repo.git
+cd your-repo
+```
+
+### 2. Instalar dependencias
+
+```bash
+npm install
+```
+
+### 3. Configuración
+
+En el archivo `src/Configs/Config.js`, configura las variables necesarias como el nombre de tu aplicación (`APP_NAME`) y la URL de la API.
+
+### 4. Ejecutar la aplicación
+
+```bash
 npm start
 ```
 
-### `npm test`
+La aplicación estará disponible en [https://mgm-client.vercel.app](https://mgm-client.vercel.app).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 📜 Licencia
 
-### `npm run build`
+Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 👥 Contribuciones
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+¡Las contribuciones son bienvenidas! Si tienes sugerencias, abre un `issue` o envía un `pull request`.
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 📝 Autor
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
+- **sardlimad**  
+  Desarrollador Frontend apasionado por crear interfaces modernas y eficientes. Encuéntrame en [LinkedIn](https://www.linkedin.com/in/sardlimad/).
