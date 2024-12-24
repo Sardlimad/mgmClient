@@ -1,5 +1,4 @@
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Box, Button, Checkbox, CircularProgress, Fade, FormControl, FormControlLabel, IconButton, InputAdornment, InputLabel, OutlinedInput, Stack, TextField, Typography } from '@mui/material'
+import { Box, Button, Checkbox, CircularProgress, Fade, FormControlLabel, Stack, TextField, Typography } from '@mui/material'
 import { useFormik } from 'formik';
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
@@ -17,10 +16,8 @@ export const Login = () => {
     const { login } = useAuth();
 
     //Campos Login
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
     const [remember, setRemember] = useState(false);
-    const [showPassword, setShowPassword] = React.useState(false);
+    // const [showPassword, setShowPassword] = React.useState(false);
 
     //Manejo de alertas
     const [openAlert, setOpenAlert] = useState(false)
@@ -38,10 +35,10 @@ export const Login = () => {
     });
 
     //Show password
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
+    // const handleClickShowPassword = () => setShowPassword((show) => !show);
+    // const handleMouseDownPassword = (event) => {
+    //     event.preventDefault();
+    // };
 
     //Rememberme
     const handleChangeRemember = (event) => {

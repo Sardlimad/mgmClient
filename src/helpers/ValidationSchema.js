@@ -39,8 +39,6 @@ export const registerValidation = yup.object({
     .required("Contraseña requerida"),
 });
 
-import * as yup from "yup";
-
 export const clientValidation = yup.object({
   identification: yup
     .string("Introduzca la identificación")

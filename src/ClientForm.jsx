@@ -23,7 +23,6 @@ const ClienteForm = () => {
 
 
     //Campos
-    const [avatar, setAvatar] = useState("");
     const [base64Image, setBase64Image] = useState("");
 
     //Manejo de alertas
@@ -50,8 +49,6 @@ const ClienteForm = () => {
             handleSave();
         },
     });
-
-    const [clientData, setClientData] = useState({});
 
     const getDataClient = async () => {
         try {
@@ -83,7 +80,6 @@ const ClienteForm = () => {
             const errorMessage = "Ocurrió un error inesperado.";
             setAlertData({ status: "error", message: errorMessage });
             setOpenAlert(true);
-            setClientData({});
         }
     }
 
@@ -143,7 +139,6 @@ const ClienteForm = () => {
             const reader = new FileReader();
             reader.onload = () => {
                 setBase64Image(reader.result);
-                setAvatar(URL.createObjectURL(file));
             };
             reader.readAsDataURL(file);
         }

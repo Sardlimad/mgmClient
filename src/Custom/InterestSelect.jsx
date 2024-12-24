@@ -1,6 +1,5 @@
-import { Box, CircularProgress, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import React, { useEffect, useState } from 'react'
-import { useAuth } from '../helpers/AuthProvider';
 import useApi from '../hooks/useAPI';
 import { Spinner } from './Spinner';
 

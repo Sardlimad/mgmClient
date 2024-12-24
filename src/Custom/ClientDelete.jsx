@@ -1,7 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import useApi from "../hooks/useAPI";
-import { useAuth } from "../helpers/AuthProvider";
 import { Button, CircularProgress, Typography } from "@mui/material";
 
 const ClientDelete = ({ IdClient, setOpenDialog }) => {
