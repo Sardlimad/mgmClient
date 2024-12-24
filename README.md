@@ -13,40 +13,12 @@ Este proyecto es una aplicación web de gestión de clientes desarrollada con **
 ### 🎨 UI/UX
 
 - **Estilo Responsivo**: Diseñado con **Material UI** para adaptarse a cualquier dispositivo.
-- **Dark/Light Mode**: Cambia dinámicamente entre temas claro y oscuro.
 - **Errores Personalizados**: Páginas de error con mensajes amigables y accesos rápidos a soluciones.
 
 ### ⚙️ Funcionalidades Adicionales
 
 - **Navegación Protegida**: Implementación de rutas privadas con redirección automática.
 - **Tooltip y Confirmaciones**: Mejora la usabilidad de botones clave, como el de cerrar sesión.
-
----
-
-## 📂 Estructura del Proyecto
-
-```
-├── public
-│   ├── index.html
-│   ├── images
-│   │   ├── 404.svg
-│   │   └── protruding-squares.svg
-├── src
-│   ├── components
-│   │   ├── LogoutBtn.jsx
-│   ├── helpers
-│   │   ├── AuthProvider.js
-│   ├── layouts
-│   │   ├── AuthLayout.jsx
-│   ├── pages
-│   │   ├── Home.jsx
-│   │   ├── Page404.jsx
-│   ├── validations
-│   │   ├── registerValidation.js
-│   ├── Configs
-│   │   ├── Config.js
-│   └── App.js
-```
 
 ---
 
