@@ -24,14 +24,6 @@ export const AuthProvider = ({ children }) => {
     setIsLoading(false);
   }, []);
 
-  //   useEffect(() => {
-  //     if (token) {
-  //       localStorage.setItem("authToken", token);
-  //     } else {
-  //       localStorage.removeItem("authToken");
-  //     }
-  //   }, [token]);
-
   return (
     <AuthContext.Provider value={{ authData, login, logout, isLoading }}>
       {children}

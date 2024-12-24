@@ -14,7 +14,6 @@ const ClientDelete = ({ IdClient, setOpenDialog }) => {
         try {
             const response = await request(`Cliente/Eliminar/${IdClient}`, "DELETE");
 
-            console.log("DELETE: ", response);
             const { status, message } = response;
             setOpenDialog(false);
             navigate('/client', { state: { alertData: { status, message } } });

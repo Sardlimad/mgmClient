@@ -1,8 +1,9 @@
 import { Button, CircularProgress, Fade, Stack, TextField, Typography } from '@mui/material'
+import { useFormik } from 'formik';
 import React, { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { CAlert } from './Custom/CAlert';
-import { validateEmail, validatePassword } from './helpers/Validator';
+import { registerValidation } from './helpers/ValidationSchema';
 import useApi from './hooks/useAPI';
 
 export const Register = () => {
@@ -11,15 +12,17 @@ export const Register = () => {
 
     const { request, loading } = useApi();
 
-    //Campos
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [showPassword, setShowPassword] = React.useState(false);
-
-
-    //Manejo de errores de validación
-    const [errors, setErrors] = useState({ email: "", password: "" });
+    const formik = useFormik({
+        initialValues: {
+            user: '',
+            email: '',
+            password: '',
+        },
+        validationSchema: registerValidation,
+        onSubmit: (values) => {
+            handleRegister();
+        },
+    });
 
     const [openAlert, setOpenAlert] = useState(false)
 
@@ -30,25 +33,16 @@ export const Register = () => {
         window.history.replaceState({}, '')
     }
 
-    const handleRegister = async (e) => {
-        e.preventDefault();
+    const handleRegister = async () => {
 
-        const newErrors = {};
-        if (!validateEmail(email)) {
-            newErrors.email = "Por favor, introduce un email válido.";
-        }
-        if (!validatePassword(password)) {
-            newErrors.password =
-                "La contraseña debe tener entre 8 y 20 caracteres, mayúscula, minúscula y número.";
+        const payload = {
+            username: formik.values.user,
+            email: formik.values.email,
+            password: formik.values.password,
         }
 
-        // Mostrar errores si existen
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
-            return;
-        }
         try {
-            const response = await request("Authenticate/register", "POST", { username, email, password });
+            const response = await request("Authenticate/register", "POST", payload);
             const { status, message } = response;
             setAlertData({ status: status === "Error" ? "error" : "success", message });
             setOpenAlert(true)
@@ -65,40 +59,54 @@ export const Register = () => {
 
     return (
         <Fade in={true} style={{ transitionDelay: pathname === '/register' ? '200ms' : '0' }}>
-            <Stack direction={'column'} spacing={2}>
-                <Typography fontSize={"40px"} alignContent="Center">Registrarse</Typography>
-                {/* Campo Usuario */}
-                <TextField type={"text"} id="user" label="Nombre Usuario" value={username} onChange={(e) => setUsername(e.target.value)} required />
+            <form onSubmit={formik.handleSubmit}>
+                <Stack direction={'column'} spacing={2}>
+                    <Typography fontSize={"40px"} alignContent="Center">Registrarse</Typography>
+                    <TextField fullWidth
+                        id="user"
+                        name="user"
+                        label="Usuario"
+                        value={formik.values.user}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={formik.touched.user && Boolean(formik.errors.user)}
+                        helperText={formik.touched.user && formik.errors.user}
+                    />
 
-                {/* Campo email */}
-                <TextField type="email" id='email' label="Dirección de correo" value={email} onChange={(e) => {
-                    setEmail(e.target.value);
-                    setErrors({ ...errors, email: false });
-                }}
-                    error={!!errors.email}
-                    helperText={errors.email && errors.email}
-                    required />
+                    <TextField fullWidth
+                        id="email"
+                        name="email"
+                        label="Correo"
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={formik.touched.email && Boolean(formik.errors.email)}
+                        helperText={formik.touched.email && formik.errors.email}
+                    />
 
-                {/* Campo Password */}
-                <TextField type={"password"} id="password" label="Contraseña" value={password} onChange={(e) => {
-                    setPassword(e.target.value);
-                    setErrors({ ...errors, password: false });
-                }}
-                    error={!!errors.password}
-                    helperText={errors.password && errors.password}
-                    required />
-                <Button variant='contained' size='large' disabled={loading} onClick={handleRegister}>
-                    <Stack gap={2} direction='row' alignItems={'center'}>
-                        <Typography>Registrarme</Typography> {loading && <CircularProgress thickness={5} color='inherit' size={15} />}
-                    </Stack>
-                </Button>
-                <Typography>¿Ya tienes una cuenta? <Link to="/login">Inicie Sesión</Link></Typography>
-                <CAlert
-                    status={alertData.status}
-                    message={alertData.message}
-                    open={openAlert}
-                    handleClose={handleClose} />
-            </Stack>
+                    <TextField fullWidth
+                        id="password"
+                        name='password'
+                        label="Contraseña"
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={formik.touched.password && Boolean(formik.errors.password)}
+                        helperText={formik.touched.password && formik.errors.password}
+                    />
+                    <Button variant='contained' size='large' disabled={loading} type="submit">
+                        <Stack gap={2} direction='row' alignItems={'center'}>
+                            <Typography>Registrarme</Typography> {loading && <CircularProgress thickness={5} color='inherit' size={15} />}
+                        </Stack>
+                    </Button>
+                    <Typography>¿Ya tienes una cuenta? <Link to="/login">Inicie Sesión</Link></Typography>
+                    <CAlert
+                        status={alertData.status}
+                        message={alertData.message}
+                        open={openAlert}
+                        handleClose={handleClose} />
+                </Stack>
+            </form>
         </Fade>
     )
 }

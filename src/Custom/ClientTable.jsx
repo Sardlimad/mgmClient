@@ -62,7 +62,6 @@ const ClientTable = () => {
             const response = await request(`Cliente/Eliminar/${IdClient}`, "DELETE", {
                 usuarioId: authData.userid,
             });
-            console.log("DELETE: ", response);
             const { status, message } = response;
             setAlertData({ status: status === "Error" ? "error" : "success", message });
             setOpenAlert(true)
@@ -122,7 +121,6 @@ const ClientTable = () => {
                     }}
                     size="small"
                     onClick={() => getClients()}
-                // disabled={searchName.trim() === "" && searchID.trim() === ""}
                 ><SearchIcon />
                 </Button>
             </Grid>

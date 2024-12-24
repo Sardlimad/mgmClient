@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Avatar, Typography, Button, Divider, Grid, TextField, IconButton, FormControl, InputLabel, Select, MenuItem, CircularProgress, useMediaQuery, Dialog } from '@mui/material';
+import { Box, Avatar, Typography, Button, Divider, Grid, TextField, IconButton, FormControl, InputLabel, Select, MenuItem, CircularProgress } from '@mui/material';
 
 import SaveIcon from '@mui/icons-material/Save';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
@@ -9,6 +9,8 @@ import { PhotoCamera } from '@mui/icons-material';
 import { InterestSelect } from './Custom/InterestSelect';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CAlert } from './Custom/CAlert';
+import { useFormik } from 'formik';
+import { clientValidation } from './helpers/ValidationSchema';
 
 const ClienteForm = () => {
 
@@ -21,17 +23,6 @@ const ClienteForm = () => {
 
 
     //Campos
-    const [name, setName] = useState("");
-    const [lastname, setLastname] = useState("");
-    const [identification, setIdentification] = useState("");
-    const [gender, setGender] = useState("M");
-    const [cellphone, setCellphone] = useState("");
-    const [otherPhone, setOtherPhone] = useState("");
-    const [address, setAddress] = useState("");
-    const [birthday, setBirthday] = useState("");
-    const [afiliation, setAfiliation] = useState("");
-    const [interest, setInterest] = useState("");
-    const [review, setReview] = useState("");
     const [avatar, setAvatar] = useState("");
     const [base64Image, setBase64Image] = useState("");
 
@@ -39,28 +30,48 @@ const ClienteForm = () => {
     const [openAlert, setOpenAlert] = useState(false)
     const [alertData, setAlertData] = useState({ status: "", message: "" });
 
+    const formik = useFormik({
+        initialValues: {
+            identification: '',
+            name: '',
+            lastname: '',
+            gender: '',
+            birthday: '',
+            afiliation: '',
+            cellphone: '',
+            otherphone: '',
+            interest: '',
+            address: '',
+            review: '',
+            // image: '',
+        },
+        validationSchema: clientValidation,
+        onSubmit: () => {
+            handleSave();
+        },
+    });
+
     const [clientData, setClientData] = useState({});
 
     const getDataClient = async () => {
         try {
-            const response = await request(`Cliente/Obtener/${IdClient}`, "GET", {
+            const response = await request(`Cliente/Obtener/${IdClient}`, "GET");
+            formik.setValues({
+                identification: response.identificacion,
+                name: response.nombre,
+                lastname: response.apellidos,
+                gender: response.sexo, //Para conflictos con los Select del resto de personas haciendo el test
+                birthday: formatDate(response.fNacimiento),
+                afiliation: formatDate(response.fAfiliacion),
+                cellphone: response.telefonoCelular,
+                otherphone: response.otroTelefono,
+                interest: response.interesesId,
+                address: response.direccion,
+                review: response.resenaPersonal,
+                // image: response.imagen,
+            })
 
-            });
-            console.log("Cliente: ", response);
-
-            setName(response.nombre);
-            setLastname(response.apellidos);
-            setIdentification(response.identificacion);
-            setGender(response.sexo === "F" || response.sexo === "M" ? response.sexo : ""); //Para conflictos con los Select del resto de personas haciendo el test
-            setCellphone(response.telefonoCelular);
-            setOtherPhone(response.otroTelefono);
-            setAddress(response.direccion);
-            setBirthday(formatDate(response.fNacimiento));
-            setAfiliation(formatDate(response.fAfiliacion));
-            setInterest(response.interesesId);
-            setReview(response.resenaPersonal);
             setBase64Image(response.imagen);
-            setAvatar(response.imagen)
 
             const { status, message } = response;
             if (status === "Error") {
@@ -88,27 +99,21 @@ const ClienteForm = () => {
 
         const payload = {
             ...(IdClient && { id: IdClient }), // Solo incluye "id" si es Actualizar
-            nombre: name,
-            apellidos: lastname,
-            identificacion: identification,
-            celular: cellphone,
-            otroTelefono: otherPhone,
-            direccion: address,
-            fNacimiento: birthday,
-            fAfiliacion: afiliation,
-            sexo: gender,
-            resennaPersonal: review,
+            nombre: formik.values.name,
+            apellidos: formik.values.lastname,
+            identificacion: formik.values.identification,
+            celular: formik.values.cellphone,
+            otroTelefono: formik.values.otherphone,
+            direccion: formik.values.address,
+            fNacimiento: new Date(formik.values.birthday).toISOString(),
+            fAfiliacion: new Date(formik.values.afiliation).toISOString(),
+            sexo: formik.values.gender,
+            resennaPersonal: formik.values.review,
+            // imagen: formik.values.image,
             imagen: base64Image,
-            interesFK: interest,
+            interesFK: formik.values.interest,
             usuarioId: authData.userid,
         };
-
-        if (birthday) {
-            payload.fNacimiento = new Date(birthday).toISOString();
-        }
-        if (afiliation) {
-            payload.fAfiliacion = new Date(afiliation).toISOString();
-        }
 
         try {
             const response = await request(endpoint, 'POST', payload);
@@ -174,26 +179,12 @@ const ClienteForm = () => {
             >
                 <CircularProgress />
             </Box>)}
-            <Grid container alignItems="center" spacing={2}>
-                <Grid item>
-                    <IconButton
-                        sx={{
-                            position: "relative",
-                            width: 80,
-                            height: 80,
-                        }}
-                        component="label"
-                    >
-                        <Avatar
-                            src={avatar || ""}
-                            sx={{
-                                width: 80,
-                                height: 80,
-                                bgcolor: "gray",
-                            }}
-                        />
-                        <PhotoCamera
-                            sx={{
+            <form onSubmit={formik.handleSubmit}>
+                <Grid container alignItems="center" spacing={2}>
+                    <Grid item>
+                        <IconButton sx={{ position: "relative", width: 80, height: 80, }} component="label">
+                            <Avatar src={base64Image} sx={{ width: 80, height: 80, bgcolor: "gray", }} />
+                            <PhotoCamera sx={{
                                 position: "absolute",
                                 bottom: 0,
                                 right: 0,
@@ -201,97 +192,215 @@ const ClienteForm = () => {
                                 backgroundColor: "white",
                                 borderRadius: "50%",
                             }}
+                            />
+                            <input
+                                type="file"
+                                accept="image/*"
+                                id="image"
+                                name="image"
+                                hidden
+                                onChange={handleFileChange}
+                                disabled={loading}
+                            />
+                        </IconButton>
+                    </Grid>
+                    <Grid item>
+                        <Typography fontWeight="bold">
+                            Mantenimiento de Cliente
+                        </Typography>
+                    </Grid>
+                    <Grid item xs />
+                    <Grid item>
+                        <Button variant="contained" color="primary" sx={{ marginRight: 1 }} startIcon={<SaveIcon />} type="submit" disabled={loading}>
+                            Guardar
+                        </Button>
+                        <Button variant="outlined" color="secondary" startIcon={<KeyboardReturnIcon />} onClick={() => navigate(-1)}>
+                            Regresar
+                        </Button>
+                    </Grid>
+                </Grid>
+
+                <Divider sx={{ my: 2 }} />
+
+                <Grid container spacing={2}>
+                    <Grid item xs={12} sm={4}>
+                        <TextField fullWidth
+                            id="identification"
+                            name="identification"
+                            label="Identificación"
+                            value={formik.values.identification}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.identification && Boolean(formik.errors.identification)}
+                            helperText={formik.touched.identification && formik.errors.identification}
+                            disabled={loading}
+                            required
                         />
-                        <input
-                            type="file"
-                            accept="image/*"
-                            hidden
-                            onChange={handleFileChange}
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                        <TextField fullWidth
+                            id="name"
+                            name="name"
+                            label="Nombre"
+                            value={formik.values.name}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.name && Boolean(formik.errors.name)}
+                            helperText={formik.touched.name && formik.errors.name}
+                            disabled={loading}
+                            required
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                        <TextField fullWidth
+                            id="lastname"
+                            name="lastname"
+                            label="Apellidos"
+                            value={formik.values.lastname}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.lastname && Boolean(formik.errors.lastname)}
+                            helperText={formik.touched.lastname && formik.errors.lastname}
+                            disabled={loading}
+                            required
+                        />
+                    </Grid>
+                </Grid>
+
+                <Grid container spacing={2} sx={{ mt: 2 }}>
+                    <Grid item xs={12} sm={4}>
+                        <Box sx={{ minWidth: 120 }}>
+                            <FormControl fullWidth>
+                                <InputLabel id="select-label">Género</InputLabel>
+                                <Select
+                                    id="gender"
+                                    name="gender"
+                                    label="Género"
+                                    value={formik.values.gender}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.gender && Boolean(formik.errors.gender)}
+                                    helperText={formik.touched.gender && formik.errors.gender}
+                                    disabled={loading}
+                                    required
+                                >
+                                    <MenuItem key="F" value="F">Femenino</MenuItem>
+                                    <MenuItem key="M" value="M">Masculino</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                        <TextField fullWidth
+                            id="birthday"
+                            name="birthday"
+                            type="date"
+                            label="Fecha de Nacimiento"
+                            value={formik.values.birthday}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.birthday && Boolean(formik.errors.birthday)}
+                            helperText={formik.touched.birthday && formik.errors.birthday}
+                            disabled={loading}
+                            InputLabelProps={{ shrink: true }}
+                            required
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                        <TextField fullWidth
+                            id="afiliation"
+                            name="afiliation"
+                            type="date"
+                            label="Fecha de Afiliación"
+                            value={formik.values.afiliation}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.afiliation && Boolean(formik.errors.afiliation)}
+                            helperText={formik.touched.afiliation && formik.errors.afiliation}
+                            disabled={loading}
+                            InputLabelProps={{ shrink: true }}
+                            required
+                        />
+                    </Grid>
+                </Grid>
+
+                <Grid container spacing={2} sx={{ mt: 2 }}>
+                    <Grid item xs={12} sm={4}>
+                        <TextField fullWidth
+                            id="cellphone"
+                            name="cellphone"
+                            type="tel"
+                            label="Teléfono Celular"
+                            value={formik.values.cellphone}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.cellphone && Boolean(formik.errors.cellphone)}
+                            helperText={formik.touched.cellphone && formik.errors.cellphone}
+                            disabled={loading}
+                            required
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                        <TextField fullWidth
+                            id="otherphone"
+                            name="otherphone"
+                            type="tel"
+                            label="Teléfono Otro"
+                            value={formik.values.otherphone}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.otherphone && Boolean(formik.errors.otherphone)}
+                            helperText={formik.touched.otherphone && formik.errors.otherphone}
+                            disabled={loading}
+                            required
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                        <InterestSelect
+                            id="interest"
+                            name="interest"
+                            label="Interés"
+                            value={formik.values.interest}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.interest && Boolean(formik.errors.interest)}
+                            helperText={formik.touched.interest && formik.errors.interest}
                             disabled={loading}
                         />
-                    </IconButton>
+                    </Grid>
                 </Grid>
-                <Grid item>
-                    <Typography fontWeight="bold">
-                        Mantenimiento de Cliente
-                    </Typography>
-                </Grid>
-                <Grid item xs />
-                <Grid item>
-                    <Button variant="contained" color="primary" sx={{ marginRight: 1 }} startIcon={<SaveIcon />} onClick={handleSave} disabled={loading}>
-                        Guardar
-                    </Button>
-                    <Button variant="outlined" color="secondary" startIcon={<KeyboardReturnIcon />} onClick={() => navigate(-1)}>
-                        Regresar
-                    </Button>
-                </Grid>
-            </Grid>
 
-            <Divider sx={{ my: 2 }} />
-
-            <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
-                    <TextField fullWidth label="Identificación" variant="outlined" required value={identification} onChange={(e) => setIdentification(e.target.value)} disabled={loading} />
+                <Grid container spacing={2} sx={{ mt: 2 }}>
+                    <Grid item xs={12}>
+                        <TextField fullWidth
+                            id="address"
+                            name="address"
+                            label="Dirección"
+                            value={formik.values.address}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.address && Boolean(formik.errors.address)}
+                            helperText={formik.touched.address && formik.errors.address}
+                            disabled={loading}
+                            required
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField fullWidth
+                            id="review"
+                            name="review"
+                            label="Reseña"
+                            value={formik.values.review}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.review && Boolean(formik.errors.review)}
+                            helperText={formik.touched.review && formik.errors.review}
+                            disabled={loading}
+                            required
+                        />
+                    </Grid>
                 </Grid>
-                <Grid item xs={12} sm={4}>
-                    <TextField fullWidth label="Nombre" variant="outlined" required value={name} onChange={(e) => setName(e.target.value)} disabled={loading} />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                    <TextField fullWidth label="Apellidos" variant="outlined" required value={lastname} onChange={(e) => setLastname(e.target.value)} disabled={loading} />
-                </Grid>
-            </Grid>
-
-            <Grid container spacing={2} sx={{ mt: 2 }}>
-                <Grid item xs={12} sm={4}>
-                    <Box sx={{ minWidth: 120 }}>
-                        <FormControl fullWidth>
-                            <InputLabel id="select-label">Género</InputLabel>
-                            <Select
-                                labelId="select-label"
-                                id="value-select"
-                                value={gender}
-                                label="Género"
-                                onChange={(e) => setGender(e.target.value)}
-                                disabled={loading}
-                            >
-                                <MenuItem key="F" value="F">Femenino</MenuItem>
-                                <MenuItem key="M" value="M">Masculino</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Box>
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                    <TextField fullWidth label="Fecha de Nacimiento" variant="outlined" type="date" required value={birthday} onChange={(e) => setBirthday(e.target.value)} disabled={loading} InputLabelProps={{
-                        shrink: true,
-                    }} />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                    <TextField fullWidth label="Fecha de Afiliación" variant="outlined" type="date" required value={afiliation} onChange={(e) => setAfiliation(e.target.value)} disabled={loading} InputLabelProps={{
-                        shrink: true,
-                    }} />
-                </Grid>
-            </Grid>
-
-            <Grid container spacing={2} sx={{ mt: 2 }}>
-                <Grid item xs={12} sm={4}>
-                    <TextField fullWidth label="Teléfono Celular" variant="outlined" required value={cellphone} onChange={(e) => setCellphone(e.target.value)} type="tel" disabled={loading} />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                    <TextField fullWidth label="Teléfono Otro" variant="outlined" required value={otherPhone} onChange={(e) => setOtherPhone(e.target.value)} type="tel" disabled={loading} />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                    <InterestSelect value={interest} setValue={setInterest} />
-                </Grid>
-            </Grid>
-
-            <Grid container spacing={2} sx={{ mt: 2 }}>
-                <Grid item xs={12}>
-                    <TextField fullWidth label="Dirección" variant="outlined" required value={address} onChange={(e) => setAddress(e.target.value)} type="text" disabled={loading} />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField fullWidth label="Reseña" variant="outlined" required value={review} onChange={(e) => setReview(e.target.value)} type="text" disabled={loading} />
-                </Grid>
-            </Grid>
+            </form>
             <CAlert
                 status={alertData.status}
                 message={alertData.message}

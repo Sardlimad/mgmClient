@@ -25,9 +25,6 @@ export const Clients = () => {
                     <Button variant="contained" color="primary" sx={{ marginRight: 1 }} startIcon={<AddIcon />} href="/client/create">
                         Registrar
                     </Button>
-                    {/* <Button variant="outlined" color="secondary" startIcon={<KeyboardReturnIcon />}>
-                        Regresar
-                    </Button> */}
                 </Grid>
             </Grid>
             <Divider sx={{ my: 2 }} />

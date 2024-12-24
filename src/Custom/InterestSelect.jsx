@@ -4,9 +4,8 @@ import { useAuth } from '../helpers/AuthProvider';
 import useApi from '../hooks/useAPI';
 import { Spinner } from './Spinner';
 
-export const InterestSelect = ({ value, setValue }) => {
+export const InterestSelect = ({ id, name, label, value, onChange, onBlur, error, helperText, disabled }) => {
 
-    const { authData } = useAuth()
     const { request, loading } = useApi();
 
     const [interests, setInterests] = useState([]);
@@ -14,7 +13,6 @@ export const InterestSelect = ({ value, setValue }) => {
     const getInterests = async () => {
         try {
             const response = await request("Intereses/Listado", "GET");
-            console.log("Intereses: ", response);
             setInterests(response);
         } catch (error) {
             console.error("Error fetching clients:", error);
@@ -26,21 +24,21 @@ export const InterestSelect = ({ value, setValue }) => {
         getInterests();
     }, [])
 
-
-    const handleChange = (e) => {
-        setValue(e.target.value);
-    };
-
     return (
         <Box sx={{ minWidth: 120 }}>
             <FormControl fullWidth>
                 <InputLabel id="select-label">Interés</InputLabel>
                 <Select
-                    labelId="select-label"
-                    id="value-select"
+                    id={id}
+                    name={name}
+                    label={label}
                     value={value}
-                    label="Interés"
-                    onChange={handleChange}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    error={error}
+                    helperText={helperText}
+                    disabled={disabled}
+                    required
                 >
                     {loading ? <Spinner /> :
                         interests.map((item) =>
