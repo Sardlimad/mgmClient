@@ -7,8 +7,10 @@ export const loginValidation = yup.object({
     .required("Usuario requerido"),
   password: yup
     .string("Introduzca su contraseña")
-    .min(10, "Contraseña debe tener un mínimo de 10 caracteres")
-    .max(20, "Contraseña debe tener un máximo de 20 caracteres")
+    // .min(10, "Contraseña debe tener un mínimo de 10 caracteres")
+    // .max(20, "Contraseña debe tener un máximo de 20 caracteres").matches(/[A-Z]/, "La contraseña debe contener al menos una letra mayúscula")
+    // .matches(/[a-z]/, "La contraseña debe contener al menos una letra minúscula")
+    // .matches(/[0-9]/, "La contraseña debe contener al menos un número")
     .required("Contraseña requerida"),
 });
 
@@ -25,6 +27,15 @@ export const registerValidation = yup.object({
     .string("Introduzca su contraseña")
     .min(10, "Contraseña debe tener un mínimo de 10 caracteres")
     .max(20, "Contraseña debe tener un máximo de 20 caracteres")
+    .matches(
+      /[A-Z]/,
+      "La contraseña debe contener al menos una letra mayúscula"
+    )
+    .matches(
+      /[a-z]/,
+      "La contraseña debe contener al menos una letra minúscula"
+    )
+    .matches(/[0-9]/, "La contraseña debe contener al menos un número")
     .required("Contraseña requerida"),
 });
 
