@@ -1,6 +1,6 @@
-# 🌟 Autenticación y Administración de Sesiones con React
+# 🌟 MGM Client
 
-Este proyecto es una aplicación web de autenticación desarrollada con **React** y **Material UI**, diseñada para ofrecer una experiencia moderna, segura y responsiva a los usuarios. La aplicación incluye funcionalidades avanzadas de manejo de sesiones y validación de formularios.
+Este proyecto es una aplicación web de gestión de clientes desarrollada con **React** y **Material UI**, diseñada para ofrecer una experiencia moderna, segura y responsiva a los usuarios. La aplicación incluye funcionalidades avanzadas de manejo de sesiones y validación de formularios.
 
 ---
 
