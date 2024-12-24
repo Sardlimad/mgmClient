@@ -55,7 +55,7 @@ export const Login = () => {
         const savedRemember = localStorage.getItem('remember') === 'true';
 
         if (savedUsername) {
-            formik.handleChange(savedUsername);
+            formik.setFieldValue("user", savedUsername);
         }
         setRemember(savedRemember);
     }, [])
