@@ -2,6 +2,7 @@ import { Box, Button, Divider, Grid, Typography } from '@mui/material'
 import React from 'react';
 import ClientTable from './Custom/ClientTable';
 import AddIcon from '@mui/icons-material/Add';
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 
 
 export const Clients = () => {
@@ -24,6 +25,9 @@ export const Clients = () => {
                 <Grid item>
                     <Button variant="contained" color="primary" sx={{ marginRight: 1 }} startIcon={<AddIcon />} href="/client/create">
                         Registrar
+                    </Button>
+                    <Button variant="outlined" color="secondary" startIcon={<KeyboardReturnIcon />} href="/">
+                        Regresar
                     </Button>
                 </Grid>
             </Grid>
