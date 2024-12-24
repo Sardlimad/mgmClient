@@ -10,7 +10,7 @@ export const Clients = () => {
     return (
         <Box
             bgcolor={"#fff"}
-            m="30px"
+            m={{ xs: "5px", md: "30px" }}
             p="20px"
             boxShadow={3}
             borderRadius="8px"

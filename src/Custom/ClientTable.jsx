@@ -117,7 +117,7 @@ const ClientTable = () => {
                     sx={{
                         height: "100%",
                         minWidth: "unset",
-                        padding: 0,
+                        // padding: ,
                     }}
                     size="small"
                     onClick={() => getClients()}
@@ -130,9 +130,9 @@ const ClientTable = () => {
                 <Table aria-label="Client Table" sx={{ border: "none" }} size="small">
                     <TableHead>
                         <TableRow  >
-                            <TableCell sx={{ width: "30%", fontWeight: "bold", }}>Identificación</TableCell>
-                            <TableCell sx={{ width: "40%", fontWeight: "bold", }}>Nombre Completo</TableCell>
-                            <TableCell sx={{ width: "20%", fontWeight: "bold", textAlign: "right" }}>Acciones</TableCell>
+                            <TableCell sx={{ width: { xs: "20%", md: "40%" }, fontWeight: "bold" }}>Identificación</TableCell>
+                            <TableCell sx={{ width: { xs: "40%", md: "40%" }, fontWeight: "bold" }}>Nombre Completo</TableCell>
+                            <TableCell sx={{ width: { xs: "40%", md: "20%" }, fontWeight: "bold", textAlign: "right" }}>Acciones</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
